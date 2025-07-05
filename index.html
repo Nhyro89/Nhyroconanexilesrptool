@@ -1,0 +1,86 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nhyro's Conan Exiles RP-Tool</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #111;
+      color: #eee;
+      padding: 2rem;
+    }
+    h1 {
+      text-align: center;
+      color: #f5a623;
+    }
+    textarea {
+      width: 100%;
+      height: 200px;
+      margin-bottom: 1rem;
+      padding: 1rem;
+      border-radius: 8px;
+      border: none;
+      resize: vertical;
+      font-family: monospace;
+      font-size: 1rem;
+    }
+    button {
+      background-color: #f5a623;
+      color: black;
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-bottom: 1rem;
+    }
+    button:hover {
+      background-color: #ffc107;
+    }
+    .output {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      background-color: #222;
+      padding: 1rem;
+      border-radius: 8px;
+      font-family: monospace;
+      width: 100%;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+<body>
+  <h1>Nhyro's Conan Exiles RP-Tool</h1>
+  <textarea id="input" placeholder="Gib deinen RP-Text hier ein..."></textarea>
+  <br />
+  <button onclick="convert()">Konvertieren</button>
+  <h2>Ausgabe:</h2>
+  <div class="output" id="output"></div>
+
+  <script>
+    function convert() {
+      const input = document.getElementById("input").value;
+      const lines = input.split('\n');
+      const outputLines = lines.map(line => {
+        const trimmed = line.trim();
+        if (trimmed === '') return '';
+        if (
+          trimmed.startsWith("/me") ||
+          trimmed.startsWith("*") ||
+          trimmed.startsWith("(")
+        ) {
+          const clean = trimmed.replace(/^\/me\s*/, '').replace(/^\*|\*$/g, '').trim();
+          return `*${clean}*`;
+        } else {
+          return `"${trimmed}"`;
+        }
+      });
+      document.getElementById("output").innerText = outputLines.join('\n');
+    }
+  </script>
+</body>
+</html>
